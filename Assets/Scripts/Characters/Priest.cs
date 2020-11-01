@@ -7,15 +7,19 @@ public class Priest : MonoBehaviour
     private int health = 1000;
     private int mana = 1000;
 
-    public int smallHeal() 
+
+    //changed the smallHeal and bigHeal for Level 2
+    public int smallHeal(bool cost) 
     {
-        mana -= 5;
+        if(cost)
+            mana -= 5;
         return 15;
     }
 
-    public int BigHeal() 
+    public int BigHeal(bool cost) 
     {
-        mana -= 8;
+        if(cost)
+            mana -= 8;
         return 20;
     }
 

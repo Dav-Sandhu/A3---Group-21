@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 
 
-public class Level1 : MonoBehaviour
+public class Level3 : MonoBehaviour
 {
     public GameObject menuBtn;
     public GameObject textObject;
@@ -32,8 +32,7 @@ public class Level1 : MonoBehaviour
     string filePath2 = "Assets/Files/damageLog.csv";
 
     string finalLog;                                            
-    int timestep;
-
+    int timestep;                                               
 
     System.Random rand = new System.Random();
 
@@ -48,13 +47,12 @@ public class Level1 : MonoBehaviour
 
         gameLoop = true;
 
-     
-
         if (!File.Exists(filePath2))                            
         {
             string[] tempText = {""};
             File.WriteAllLines(filePath2, tempText);
         }
+
 
         //InvokeRepeating("loop", 0.0f, 0.3f);
     }
@@ -81,12 +79,23 @@ public class Level1 : MonoBehaviour
 
             curDmg = addDamage(boss, boss.GetComponent<Boss>().attack("Warrior"));                  
             warrior.GetComponent<Warrior>().damageHealth(curDmg);
+
+
+            //specific for Level 3
+            int bonusDamage = totalBossDamage / 100;
+            addDamage(boss, bonusDamage);
+            warrior.GetComponent<Warrior>().damageHealth(bonusDamage);
+            Debug.Log("TOTAL DAMAGE :" + totalBossDamage + "     BONUS DAMAGE: " + bonusDamage);
+
+
             checkDeath(warrior.GetComponent<Warrior>().getHealth());
 
             curDmg = addDamage(warrior, warrior.GetComponent<Warrior>().attack());
             curDmg = addDamage(rogue, rogue.GetComponent<Rogue>().attack());
             curDmg = addDamage(mage, mage.GetComponent<Mage>().attack());
             curDmg = addDamage(druid, druid.GetComponent<Druid>().attack());
+
+
 
             healParty(priest.GetComponent<Priest>().smallHeal(true));
 
@@ -103,7 +112,7 @@ public class Level1 : MonoBehaviour
             finalLog += timestep.ToString() + "," + p1 + "," + p2 + "," + p3 + "," + p4 + "," + p5 + "," + p6 + '\n';
             timestep += 1;
 
-            display();         
+            display();
         }
     }
 

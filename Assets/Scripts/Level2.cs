@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 
 
-public class Level1 : MonoBehaviour
+public class Level2 : MonoBehaviour
 {
     public GameObject menuBtn;
     public GameObject textObject;
@@ -32,8 +32,7 @@ public class Level1 : MonoBehaviour
     string filePath2 = "Assets/Files/damageLog.csv";
 
     string finalLog;                                            
-    int timestep;
-
+    int timestep;                                               
 
     System.Random rand = new System.Random();
 
@@ -48,13 +47,12 @@ public class Level1 : MonoBehaviour
 
         gameLoop = true;
 
-     
-
         if (!File.Exists(filePath2))                            
         {
             string[] tempText = {""};
             File.WriteAllLines(filePath2, tempText);
         }
+
 
         //InvokeRepeating("loop", 0.0f, 0.3f);
     }
@@ -82,6 +80,7 @@ public class Level1 : MonoBehaviour
             curDmg = addDamage(boss, boss.GetComponent<Boss>().attack("Warrior"));                  
             warrior.GetComponent<Warrior>().damageHealth(curDmg);
             checkDeath(warrior.GetComponent<Warrior>().getHealth());
+            tankHeal(warrior.GetComponent<Warrior>().getHealth()); //Level 2 specific
 
             curDmg = addDamage(warrior, warrior.GetComponent<Warrior>().attack());
             curDmg = addDamage(rogue, rogue.GetComponent<Rogue>().attack());
@@ -103,9 +102,38 @@ public class Level1 : MonoBehaviour
             finalLog += timestep.ToString() + "," + p1 + "," + p2 + "," + p3 + "," + p4 + "," + p5 + "," + p6 + '\n';
             timestep += 1;
 
-            display();         
+            display();
         }
     }
+
+
+    //Level 2 specific
+    //DEBUG THE RANDOM INT NOT WORKING
+    void tankHeal(int health)
+    {
+        if(health <= 1500)
+        {
+            int dice = rand.Next(0, 1);
+            Debug.Log("Dice: " + dice);
+            if(dice == 0)
+            {
+                Debug.Log("SMALL EMERGENCY HEAL @" + warrior.GetComponent<Warrior>().getHealth());
+                warrior.GetComponent<Warrior>().addHealth(priest.GetComponent<Priest>().smallHeal(false));
+                
+            }
+            else if(dice == 1)
+            {
+                Debug.Log("BIG EMERGENCY HEAL @" + warrior.GetComponent<Warrior>().getHealth());
+                warrior.GetComponent<Warrior>().addHealth(priest.GetComponent<Priest>().BigHeal(false));
+               
+            }
+
+            
+        }
+    }
+
+    
+
 
     void checkDeath(int health)
     {
@@ -191,7 +219,7 @@ public class Level1 : MonoBehaviour
     void healParty(int amount)
     {
         int dice = rand.Next(0, 5);
-
+        
         if (dice == 0 || dice == 1)
         {
             priest.GetComponent<Priest>().addHealth(amount);

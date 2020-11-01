@@ -16,7 +16,7 @@ public class Boss : MonoBehaviour
 
         return rand.Next(5, 20);
     }
-
+    
     public int getHealth() 
     {
         return health;
