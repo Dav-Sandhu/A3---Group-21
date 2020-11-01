@@ -113,7 +113,7 @@ public class Level2 : MonoBehaviour
     {
         if(health <= 1500)
         {
-            int dice = rand.Next(0, 1);
+            int dice = rand.Next(0, 2);
             Debug.Log("Dice: " + dice);
             if(dice == 0)
             {
@@ -155,7 +155,7 @@ public class Level2 : MonoBehaviour
             {
                 string[] words = line.Split(',');
 
-                if (words[0] == "Level 1")
+                if (words[0] == "Level 2")
                 {
                     string val1 = words[1];
                     string val2 = words[2];
@@ -170,11 +170,11 @@ public class Level2 : MonoBehaviour
                         val2 = totalBossDamage.ToString();
                     }
 
-                    Line1 = "Level 1," + val1 + ',' + val2 + '\n';
+                    Line2 = "Level 2," + val1 + ',' + val2;
                 }
-                else if (words[0] == "Level 2")
+                else if (words[0] == "Level 1")
                 {
-                    Line2 = line;
+                    Line1 = line;
                 }
                 else if (words[0] == "Level 3") 
                 {
@@ -182,7 +182,7 @@ public class Level2 : MonoBehaviour
                 }
             }
 
-            string strout = Line1 + Line2 + '\n' + Line3;
+            string strout = Line1 + '\n' + Line2 + '\n' + Line3;
             File.WriteAllText(filePath, strout);
             File.WriteAllText(filePath2, finalLog);
         }
